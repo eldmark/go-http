@@ -1,86 +1,115 @@
-# Backend con Go — De TCP a APIs RESTful
+# 09 - Query Parameters
 
-Este repositorio es un recorrido progresivo para entender cómo funciona un servidor backend en Go desde la base.
+En esta etapa la API incorpora soporte para parámetros en la URL, permitiendo filtrar resultados utilizando query parameters.
 
-El objetivo no es aprender un framework.
-
-El objetivo es entender el problema antes de usar la solución.
+Se mantiene el modelo basado en archivo JSON como fuente de datos, pero ahora el comportamiento del endpoint cambia según los parámetros recibidos.
 
 ---
 
-## 🧠 Enfoque
+## 🎯 Objetivo de esta etapa
 
-Comenzamos desde el nivel más bajo posible:
+Comprender:
 
-* TCP puro
-* Construcción manual de HTTP
-* Routing manual
-* Uso de la librería estándar
-* Separación de archivos
-* Servir recursos estáticos
-* Generación de vistas
-* Construcción de APIs JSON
-* Persistencia en archivo
-* Manejo de parámetros
-* Creación de recursos
-
-Cada rama representa una capa adicional de abstracción.
-
-La idea es poder moverse entre ramas y observar cómo evoluciona el servidor.
+* Qué son los query parameters
+* Cómo acceder a ellos con `r.URL.Query()`
+* Cómo convertir valores de string a otros tipos (`strconv.Atoi`)
+* Cómo validar input del usuario
+* Cómo devolver diferentes respuestas según parámetros recibidos
 
 ---
 
-## 🎯 Qué se busca lograr
+## 📁 Estructura del proyecto
 
-Que el estudiante entienda:
+```
+.
+├── main.go
+├── data/
+│   └── teams.json
+├── Dockerfile
+└── docker-compose.yml
+```
 
-* Qué es realmente HTTP
-* Qué ocurre cuando el navegador hace una petición
-* Qué abstrae `net/http`
-* Cómo funciona el routing
-* Cómo se sirven archivos
-* Cómo se renderizan vistas
-* Cómo se construye una API JSON
-* Cómo se modelan recursos y operaciones
-
----
-
-## 🐳 Entorno
-
-Todos los ejemplos están preparados para ejecutarse con Docker y Docker Compose.
-
-Cada rama contiene sus propias instrucciones para levantar el proyecto.
+La estructura no cambia respecto a la rama anterior.
 
 ---
 
-## 📚 Ramas del repositorio
+## 🧠 Qué cambió respecto a la rama anterior
 
-**[01-raw-tcp](https://github.com/menene/go-http/tree/01-raw-tcp)**  
-Servidor construido directamente sobre TCP. Se construye manualmente la respuesta HTTP para entender cómo funciona el protocolo desde la base.
+Antes:
 
-**[02-http-manual-routing](https://github.com/menene/go-http/tree/02-http-manual-routing)**  
-Se parsea manualmente la primera línea del request para extraer método y ruta, implementando routing básico y códigos de estado.
+* `GET /api/teams` devolvía siempre todos los equipos
 
-**[03-net-http-basics](https://github.com/menene/go-http/tree/03-net-http-basics)**  
-Se introduce la librería estándar `net/http`, eliminando el manejo manual del protocolo y mostrando el valor de la abstracción.
+Ahora:
 
-**[04-serve-html-files](https://github.com/menene/go-http/tree/04-serve-html-files)**  
-El servidor comienza a servir archivos HTML reales junto con recursos estáticos como CSS e imágenes.
+* `GET /api/teams` devuelve todos los equipos
+* `GET /api/teams?id=1` devuelve un equipo específico
 
-**[05-templates](https://github.com/menene/go-http/tree/05-templates)**  
-Se introduce `html/template`, permitiendo generar vistas desde el servidor y reutilizar un layout común.
+El mismo endpoint ahora tiene comportamiento condicional basado en parámetros.
 
-**[06-posts](https://github.com/menene/go-http/tree/06-posts)**  
-Se incorporan formularios HTML y el método POST, permitiendo que el servidor reciba y procese datos enviados por el cliente.
+---
 
-**[07-json-api](https://github.com/menene/go-http/tree/07-json-api)**  
-Se elimina la capa de vistas y el servidor pasa a ser una API pura que devuelve JSON utilizando `encoding/json`.
+## 🧩 Ejemplos de uso
 
-**[08-file-db](https://github.com/menene/go-http/tree/08-file-db)**  
-La API comienza a leer datos desde un archivo JSON, simulando una base de datos basada en archivo.
+Obtener todos los equipos:
 
-**[09-query-params](https://github.com/menene/go-http/tree/09-query-params)**  
-Se agregan parámetros en la URL (`?id=`), permitiendo filtrar resultados y modificar el comportamiento del endpoint según el input recibido.
+```
+GET /api/teams
+```
 
-**[10-post-json](https://github.com/menene/go-http/tree/10-post-json)**  
-Se incorpora soporte para `POST` con body en formato JSON, permitiendo crear nuevos recursos, validar datos y devolver `201 Created`.
+Obtener un equipo específico:
+
+```
+GET /api/teams?id=1
+```
+
+Si el parámetro es inválido:
+
+* Se devuelve `400 Bad Request`
+
+Si el equipo no existe:
+
+* Se devuelve `404 Not Found`
+
+---
+
+## 🔎 Conceptos introducidos
+
+* `r.URL.Query()` para leer parámetros de la URL
+* Uso de `query.Get("id")`
+* Conversión de tipos con `strconv.Atoi`
+* Validación de parámetros
+* Respuestas condicionales según input
+
+---
+
+## 🐳 Ejecución
+
+El servidor escucha en el puerto 80 dentro del contenedor.
+
+En `docker-compose.yml` se mapea:
+
+```yaml
+ports:
+  - "8080:80"
+```
+
+Probar con:
+
+```bash
+curl http://localhost:8080/api/ping
+curl http://localhost:8080/api/teams
+curl http://localhost:8080/api/teams?id=1
+```
+
+---
+
+## 📌 Qué estamos aprendiendo realmente
+
+En esta etapa entendemos que:
+
+* Los endpoints pueden cambiar su comportamiento según parámetros
+* Todos los parámetros llegan como strings
+* Es responsabilidad del backend validar y convertir los datos
+
+Este es el paso previo antes de modelar recursos utilizando path parameters y construir una API REST más formal.
+

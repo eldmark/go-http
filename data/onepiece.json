@@ -1,0 +1,210 @@
+[
+  {
+    "id": 1,
+    "name": "Monkey D. Luffy",
+    "devil_fruit": "Gomu Gomu no Mi (Hito Hito no Mi, Model: Nika)",
+    "fight_style": "Elastic close-quarters combat with advanced Haki",
+    "weapon": "Body (enhanced by Devil Fruit)",
+    "speciality": "Advanced Conqueror's Haki and Gear transformations"
+  },
+  {
+    "id": 2,
+    "name": "Roronoa Zoro",
+    "devil_fruit": "",
+    "fight_style": "Santoryu (Three-Sword Style)",
+    "weapon": "Wado Ichimonji, Enma, Sandai Kitetsu",
+    "speciality": "Armament Haki mastery and swordsmanship"
+  },
+  {
+    "id": 3,
+    "name": "Nami",
+    "devil_fruit": "",
+    "fight_style": "Climate-based tactical combat",
+    "weapon": "Clima-Tact",
+    "speciality": "Meteorology and navigation"
+  },
+  {
+    "id": 4,
+    "name": "Usopp",
+    "devil_fruit": "",
+    "fight_style": "Long-range sniping and trickery",
+    "weapon": "Kuro Kabuto",
+    "speciality": "Precision marksmanship and deception"
+  },
+  {
+    "id": 5,
+    "name": "Sanji",
+    "devil_fruit": "",
+    "fight_style": "Black Leg Style (kick-based martial arts)",
+    "weapon": "Legs (enhanced exoskeleton)",
+    "speciality": "Observation Haki and speed combat"
+  },
+  {
+    "id": 6,
+    "name": "Tony Tony Chopper",
+    "devil_fruit": "Hito Hito no Mi",
+    "fight_style": "Zoan transformations with medical support",
+    "weapon": "Rumble Ball-enhanced forms",
+    "speciality": "Medicine and biological enhancement"
+  },
+  {
+    "id": 7,
+    "name": "Nico Robin",
+    "devil_fruit": "Hana Hana no Mi",
+    "fight_style": "Multi-limb grappling and assassination",
+    "weapon": "Devil Fruit abilities",
+    "speciality": "Archaeology and intelligence gathering"
+  },
+  {
+    "id": 8,
+    "name": "Franky",
+    "devil_fruit": "",
+    "fight_style": "Heavy artillery and mechanical combat",
+    "weapon": "General Franky, Radical Beam",
+    "speciality": "Engineering and shipbuilding"
+  },
+  {
+    "id": 9,
+    "name": "Brook",
+    "devil_fruit": "Yomi Yomi no Mi",
+    "fight_style": "Fencing combined with soul-based attacks",
+    "weapon": "Shikomizue (cane sword)",
+    "speciality": "Soul manipulation and music"
+  },
+  {
+    "id": 10,
+    "name": "Jinbe",
+    "devil_fruit": "",
+    "fight_style": "Fish-Man Karate",
+    "weapon": "Martial arts",
+    "speciality": "Water manipulation in combat"
+  },
+  {
+    "id": 11,
+    "name": "Trafalgar D. Water Law",
+    "devil_fruit": "Ope Ope no Mi",
+    "fight_style": "Spatial manipulation within ROOM",
+    "weapon": "Kikoku (nodachi sword)",
+    "speciality": "Surgical precision and tactical planning"
+  },
+  {
+    "id": 12,
+    "name": "Eustass Kid",
+    "devil_fruit": "Jiki Jiki no Mi",
+    "fight_style": "Magnetic construct combat",
+    "weapon": "Metal constructs",
+    "speciality": "Magnetism-based offense"
+  },
+  {
+    "id": 13,
+    "name": "Portgas D. Ace",
+    "devil_fruit": "Mera Mera no Mi",
+    "fight_style": "Logia-based fire combat",
+    "weapon": "Fire manipulation",
+    "speciality": "High-intensity flame attacks"
+  },
+  {
+    "id": 14,
+    "name": "Marshall D. Teach",
+    "devil_fruit": "Yami Yami no Mi \u0026 Gura Gura no Mi",
+    "fight_style": "Darkness absorption and seismic destruction",
+    "weapon": "Dual Devil Fruit powers",
+    "speciality": "Devil Fruit nullification and quake generation"
+  },
+  {
+    "id": 15,
+    "name": "Shanks",
+    "devil_fruit": "",
+    "fight_style": "Supreme Haki-infused swordsmanship",
+    "weapon": "Gryphon (sword)",
+    "speciality": "Advanced Conqueror's Haki projection"
+  },
+  {
+    "id": 16,
+    "name": "Dracule Mihawk",
+    "devil_fruit": "",
+    "fight_style": "Master swordsmanship",
+    "weapon": "Yoru (Black Blade)",
+    "speciality": "World-class blade precision"
+  },
+  {
+    "id": 17,
+    "name": "Kaido",
+    "devil_fruit": "Uo Uo no Mi, Model: Seiryu",
+    "fight_style": "Mythical Zoan brute force combat",
+    "weapon": "Kanabo (spiked club)",
+    "speciality": "Extreme durability and dragon transformations"
+  },
+  {
+    "id": 18,
+    "name": "Charlotte Linlin",
+    "devil_fruit": "Soru Soru no Mi",
+    "fight_style": "Soul manipulation and overwhelming strength",
+    "weapon": "Napoleon (sentient sword)",
+    "speciality": "Soul extraction and elemental homies"
+  },
+  {
+    "id": 19,
+    "name": "Donquixote Doflamingo",
+    "devil_fruit": "Ito Ito no Mi",
+    "fight_style": "String-based manipulation and aerial combat",
+    "weapon": "Devil Fruit strings",
+    "speciality": "Parasite control and awakening techniques"
+  },
+  {
+    "id": 20,
+    "name": "Rob Lucci",
+    "devil_fruit": "Neko Neko no Mi, Model: Leopard",
+    "fight_style": "Rokushiki and Zoan hybrid combat",
+    "weapon": "Martial arts",
+    "speciality": "Assassination and high-speed strikes"
+  },
+  {
+    "id": 21,
+    "name": "Boa Hancock",
+    "devil_fruit": "Mero Mero no Mi",
+    "fight_style": "Petrification-based melee combat",
+    "weapon": "Devil Fruit powers",
+    "speciality": "Charm-induced stone attacks"
+  },
+  {
+    "id": 22,
+    "name": "Sabo",
+    "devil_fruit": "Mera Mera no Mi",
+    "fight_style": "Ryusoken and fire-enhanced martial arts",
+    "weapon": "Dragon Claw techniques",
+    "speciality": "Internal destruction combat"
+  },
+  {
+    "id": 23,
+    "name": "Enel",
+    "devil_fruit": "Goro Goro no Mi",
+    "fight_style": "Lightning-based ranged combat",
+    "weapon": "Lightning manipulation",
+    "speciality": "Mantra (Observation Haki)"
+  },
+  {
+    "id": 24,
+    "name": "Crocodile",
+    "devil_fruit": "Suna Suna no Mi",
+    "fight_style": "Logia sand-based control combat",
+    "weapon": "Sand manipulation and hook",
+    "speciality": "Dehydration and battlefield control"
+  },
+  {
+    "id": 25,
+    "name": "Yamato",
+    "devil_fruit": "Inu Inu no Mi, Model: Okuchi no Makami",
+    "fight_style": "Mythical Zoan melee combat",
+    "weapon": "Kanabo",
+    "speciality": "Ice-based attacks and hybrid transformation"
+  },
+  {
+    "id": 26,
+    "name": "Gol D. Roger",
+    "devil_fruit": "N/a",
+    "fight_style": "Sword",
+    "weapon": "Sword",
+    "speciality": "Conquerors Haki"
+  }
+]
