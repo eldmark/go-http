@@ -179,3 +179,18 @@ All errors follow the same format:
 | 400    | Invalid input or missing required fields |
 | 404    | Character not found                      |
 | 405    | Method not allowed                       |
+
+### Evidence
+```markdown
+### Create Character
+
+![Create Character](../public/create.png)
+
+### Get All Characters
+
+![Get All Characters](../public/get_characters.png)
+
+### Get Single Character
+
+![Get Single Character](../public/get_one_character.png)
+```
