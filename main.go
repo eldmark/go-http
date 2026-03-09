@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/eldmark/go-http/handlers"
+	"github.com/eldmark/go-http/utils"
 )
 
 func main() {
@@ -12,6 +13,7 @@ func main() {
 	handler := handlers.NewCharacterHandler("./data/onepiece.json")
 
 	http.HandleFunc("/api/ping", handler.Ping)
+
 	http.HandleFunc("/api/characters", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
@@ -19,9 +21,12 @@ func main() {
 		case http.MethodPost:
 			handler.AddCharacter(w, r)
 		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			utils.WriteJSON(w, http.StatusMethodNotAllowed, map[string]string{
+				"error": "Method not allowed",
+			})
 		}
 	})
+
 	http.HandleFunc("/api/characters/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
@@ -31,7 +36,9 @@ func main() {
 		case http.MethodDelete:
 			handler.DeleteCharacter(w, r)
 		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			utils.WriteJSON(w, http.StatusMethodNotAllowed, map[string]string{
+				"error": "Method not allowed",
+			})
 		}
 	})
 

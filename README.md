@@ -1,115 +1,181 @@
-# 09 - Query Parameters
+# go-http
 
-En esta etapa la API incorpora soporte para parámetros en la URL, permitiendo filtrar resultados utilizando query parameters.
-
-Se mantiene el modelo basado en archivo JSON como fuente de datos, pero ahora el comportamiento del endpoint cambia según los parámetros recibidos.
+A RESTful HTTP API built with Go (no external frameworks) that manages One Piece characters. Data is persisted to a local JSON file and the server runs inside Docker.
 
 ---
 
-## 🎯 Objetivo de esta etapa
-
-Comprender:
-
-* Qué son los query parameters
-* Cómo acceder a ellos con `r.URL.Query()`
-* Cómo convertir valores de string a otros tipos (`strconv.Atoi`)
-* Cómo validar input del usuario
-* Cómo devolver diferentes respuestas según parámetros recibidos
-
----
-
-## 📁 Estructura del proyecto
+## Project Structure
 
 ```
-.
-├── main.go
+go-http/
 ├── data/
-│   └── teams.json
+│   └── onepiece.json        # JSON file used as the database
+├── handlers/
+│   └── handler_character.go # HTTP handler methods
+├── models/
+│   └── item.go              # Character model struct
+├── utils/
+│   └── items.go             # WriteJSON helper
+├── main.go                  # Entry point & route registration
 ├── Dockerfile
 └── docker-compose.yml
 ```
 
-La estructura no cambia respecto a la rama anterior.
+---
+
+## Requirements
+
+- [Docker](https://www.docker.com/) and Docker Compose
 
 ---
 
-## 🧠 Qué cambió respecto a la rama anterior
-
-Antes:
-
-* `GET /api/teams` devolvía siempre todos los equipos
-
-Ahora:
-
-* `GET /api/teams` devuelve todos los equipos
-* `GET /api/teams?id=1` devuelve un equipo específico
-
-El mismo endpoint ahora tiene comportamiento condicional basado en parámetros.
-
----
-
-## 🧩 Ejemplos de uso
-
-Obtener todos los equipos:
-
-```
-GET /api/teams
-```
-
-Obtener un equipo específico:
-
-```
-GET /api/teams?id=1
-```
-
-Si el parámetro es inválido:
-
-* Se devuelve `400 Bad Request`
-
-Si el equipo no existe:
-
-* Se devuelve `404 Not Found`
-
----
-
-## 🔎 Conceptos introducidos
-
-* `r.URL.Query()` para leer parámetros de la URL
-* Uso de `query.Get("id")`
-* Conversión de tipos con `strconv.Atoi`
-* Validación de parámetros
-* Respuestas condicionales según input
-
----
-
-## 🐳 Ejecución
-
-El servidor escucha en el puerto 80 dentro del contenedor.
-
-En `docker-compose.yml` se mapea:
-
-```yaml
-ports:
-  - "8080:80"
-```
-
-Probar con:
+## Running the Server
 
 ```bash
-curl http://localhost:8080/api/ping
-curl http://localhost:8080/api/teams
-curl http://localhost:8080/api/teams?id=1
+docker compose build --no-cache
+docker compose up
+```
+
+The server will be available at `http://localhost:24229`.
+
+---
+
+## Character Model
+
+| Field       | Type   | JSON key      | Required |
+|-------------|--------|---------------|----------|
+| ID          | int    | `id`          | auto     |
+| Name        | string | `name`        | yes      |
+| Devil Fruit | string | `devil_fruit` | no       |
+| Fight Style | string | `fight_style` | yes      |
+| Weapon      | string | `weapon`      | yes      |
+| Speciality  | string | `speciality`  | yes      |
+
+---
+
+## API Endpoints
+
+### Health Check
+
+```
+GET /api/ping
+```
+
+**Response**
+```json
+{ "message": "pong" }
 ```
 
 ---
 
-## 📌 Qué estamos aprendiendo realmente
+### Get All Characters
 
-En esta etapa entendemos que:
+```
+GET /api/characters
+```
 
-* Los endpoints pueden cambiar su comportamiento según parámetros
-* Todos los parámetros llegan como strings
-* Es responsabilidad del backend validar y convertir los datos
+Supports optional query parameters for filtering:
 
-Este es el paso previo antes de modelar recursos utilizando path parameters y construir una API REST más formal.
+| Param         | Description                             |
+|---------------|-----------------------------------------|
+| `id`          | Filter by exact ID                      |
+| `name`        | Filter by exact name (case-insensitive) |
+| `devil_fruit` | Filter by devil fruit (partial match)   |
+| `weapon`      | Filter by weapon (partial match)        |
+| `speciality`  | Filter by speciality (partial match)    |
 
+**Examples**
+```
+GET /api/characters
+GET /api/characters?name=Zoro
+GET /api/characters?devil_fruit=gomu
+```
+
+---
+
+### Get Character by ID
+
+```
+GET /api/characters/{id}
+```
+
+**Response `200`**
+```json
+{
+  "id": 1,
+  "name": "Monkey D. Luffy",
+  "devil_fruit": "Gomu Gomu no Mi",
+  "fight_style": "Elastic close-quarters combat",
+  "weapon": "Body",
+  "speciality": "Gear transformations"
+}
+```
+
+**Response `404`**
+```json
+{ "error": "Character not found" }
+```
+
+---
+
+### Add Character
+
+```
+POST /api/characters
+Content-Type: application/json
+```
+
+**Request Body**
+```json
+{
+  "name": "Boa Hancock",
+  "devil_fruit": "Mero Mero no Mi",
+  "fight_style": "Kick-based martial arts",
+  "weapon": "Body",
+  "speciality": "Petrification via love"
+}
+```
+
+**Response `201`** — returns the created character with its generated `id`.
+
+---
+
+### Update Character
+
+```
+PUT /api/characters/{id}
+Content-Type: application/json
+```
+
+**Request Body** — same fields as POST.
+
+**Response `200`** — returns the updated character.
+
+---
+
+### Delete Character
+
+```
+DELETE /api/characters/{id}
+```
+
+**Response `200`**
+```json
+{ "message": "Character deleted" }
+```
+
+---
+
+## Error Responses
+
+All errors follow the same format:
+
+```json
+{ "error": "<description>" }
+```
+
+| Status | Meaning                                  |
+|--------|------------------------------------------|
+| 400    | Invalid input or missing required fields |
+| 404    | Character not found                      |
+| 405    | Method not allowed                       |
