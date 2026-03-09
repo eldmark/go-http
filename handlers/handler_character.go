@@ -162,15 +162,6 @@ func (h *CharacterHandler) UpdateCharacter(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	for i, character := range h.Characters {
-		if character.ID == id {
-			updatedCharacter.ID = id
-			h.Characters[i] = updatedCharacter
-			h.save()
-			utils.WriteJSON(w, http.StatusOK, updatedCharacter)
-			return
-		}
-	}
 	if updatedCharacter.Name == "" ||
 		updatedCharacter.FightStyle == "" ||
 		updatedCharacter.Weapon == "" ||
@@ -182,6 +173,19 @@ func (h *CharacterHandler) UpdateCharacter(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	for i, character := range h.Characters {
+		if character.ID == id {
+			updatedCharacter.ID = id
+			h.Characters[i] = updatedCharacter
+			h.save()
+			utils.WriteJSON(w, http.StatusOK, updatedCharacter)
+			return
+		}
+	}
+
+	utils.WriteJSON(w, http.StatusNotFound, map[string]string{
+		"error": "Character not found",
+	})
 }
 
 func (h *CharacterHandler) DeleteCharacter(w http.ResponseWriter, r *http.Request) {
