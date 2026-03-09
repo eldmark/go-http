@@ -1,59 +1,61 @@
 # go-http
 
-A RESTful HTTP API built with Go (no external frameworks) that manages One Piece characters. Data is persisted to a local JSON file and the server runs inside Docker.
+API HTTP RESTful construida en Go (sin frameworks externos) para gestionar personajes de One Piece. Los datos se persisten en un archivo JSON local y el servidor corre dentro de Docker.
 
 ---
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 go-http/
 ├── data/
-│   └── onepiece.json        # JSON file used as the database
+│   └── onepiece.json        # Archivo JSON usado como base de datos
 ├── handlers/
-│   └── handler_character.go # HTTP handler methods
+│   └── handler_character.go # Métodos HTTP del controlador
 ├── models/
-│   └── item.go              # Character model struct
+│   └── item.go              # Struct del modelo Character
 ├── utils/
-│   └── items.go             # WriteJSON helper
-├── main.go                  # Entry point & route registration
+│   └── items.go             # Helper WriteJSON
+├── main.go                  # Punto de entrada y registro de rutas
 ├── Dockerfile
 └── docker-compose.yml
 ```
 
 ---
 
-## Requirements
+## Requisitos
 
-- [Docker](https://www.docker.com/) and Docker Compose
+- [Docker](https://www.docker.com/) y Docker Compose
 
 ---
 
-## Running the Server
+## Cómo correr el servidor
 
 ```bash
 docker compose build --no-cache
 docker compose up
 ```
 
-The server will be available at `http://localhost:24229`.
+El servidor estará disponible en `http://localhost:24229`.
 
 ---
 
-## Character Model
+## Modelo de personaje
 
-| Field       | Type   | JSON key      | Required |
-|-------------|--------|---------------|----------|
-| ID          | int    | `id`          | auto     |
-| Name        | string | `name`        | yes      |
-| Devil Fruit | string | `devil_fruit` | no       |
-| Fight Style | string | `fight_style` | yes      |
-| Weapon      | string | `weapon`      | yes      |
-| Speciality  | string | `speciality`  | yes      |
+| Campo       | Tipo   | Clave JSON    | Requerido |
+|-------------|--------|---------------|-----------|
+| ID          | int    | `id`          | automático |
+| Nombre      | string | `name`        | sí        |
+| Fruta       | string | `devil_fruit` | no        |
+| Estilo      | string | `fight_style` | sí        |
+| Arma        | string | `weapon`      | sí        |
+| Especialidad| string | `speciality`  | sí        |
 
 ---
 
-## API Endpoints
+## Endpoints
+
+> Todas las rutas `/api/items` son alias de `/api/characters` y se comportan de forma idéntica.
 
 ### Health Check
 
@@ -61,45 +63,49 @@ The server will be available at `http://localhost:24229`.
 GET /api/ping
 ```
 
-**Response**
+**Respuesta**
 ```json
 { "message": "pong" }
 ```
 
 ---
 
-### Get All Characters
+### Obtener todos los personajes
 
 ```
 GET /api/characters
+GET /api/items
 ```
 
-Supports optional query parameters for filtering:
+Soporta parámetros opcionales de filtrado (combinables entre sí):
 
-| Param         | Description                             |
-|---------------|-----------------------------------------|
-| `id`          | Filter by exact ID                      |
-| `name`        | Filter by exact name (case-insensitive) |
-| `devil_fruit` | Filter by devil fruit (partial match)   |
-| `weapon`      | Filter by weapon (partial match)        |
-| `speciality`  | Filter by speciality (partial match)    |
+| Parámetro     | Descripción                                  |
+|---------------|----------------------------------------------|
+| `id`          | Filtrar por ID exacto                        |
+| `name`        | Filtrar por nombre exacto (sin distinción de mayúsculas) |
+| `devil_fruit` | Filtrar por fruta del diablo (coincidencia parcial) |
+| `weapon`      | Filtrar por arma (coincidencia parcial)      |
+| `speciality`  | Filtrar por especialidad (coincidencia parcial) |
+| `fight_style` | Filtrar por estilo de pelea (coincidencia parcial) |
 
-**Examples**
+**Ejemplos**
 ```
 GET /api/characters
 GET /api/characters?name=Zoro
-GET /api/characters?devil_fruit=gomu
+GET /api/characters?weapon=sword&devil_fruit=mera
+GET /api/items?fight_style=kick
 ```
 
 ---
 
-### Get Character by ID
+### Obtener personaje por ID
 
 ```
 GET /api/characters/{id}
+GET /api/items/{id}
 ```
 
-**Response `200`**
+**Respuesta `200`**
 ```json
 {
   "id": 1,
@@ -111,21 +117,22 @@ GET /api/characters/{id}
 }
 ```
 
-**Response `404`**
+**Respuesta `404`**
 ```json
 { "error": "Character not found" }
 ```
 
 ---
 
-### Add Character
+### Agregar personaje
 
 ```
 POST /api/characters
+POST /api/items
 Content-Type: application/json
 ```
 
-**Request Body**
+**Body**
 ```json
 {
   "name": "Boa Hancock",
@@ -136,60 +143,65 @@ Content-Type: application/json
 }
 ```
 
-**Response `201`** — returns the created character with its generated `id`.
+**Respuesta `201`** — devuelve el personaje creado con su `id` generado.
 
 ---
 
-### Update Character
+### Actualizar personaje
 
 ```
 PUT /api/characters/{id}
+PUT /api/items/{id}
 Content-Type: application/json
 ```
 
-**Request Body** — same fields as POST.
+**Body** — mismos campos que POST.
 
-**Response `200`** — returns the updated character.
+**Respuesta `200`** — devuelve el personaje actualizado.  
+**Respuesta `404`** — si el ID no existe.
 
 ---
 
-### Delete Character
+### Eliminar personaje
 
 ```
 DELETE /api/characters/{id}
+DELETE /api/items/{id}
 ```
 
-**Response `200`**
+**Respuesta `200`**
 ```json
 { "message": "Character deleted" }
 ```
 
 ---
 
-## Error Responses
+## Respuestas de error
 
-All errors follow the same format:
+Todos los errores siguen el mismo formato:
 
 ```json
-{ "error": "<description>" }
+{ "error": "<descripción>" }
 ```
 
-| Status | Meaning                                  |
-|--------|------------------------------------------|
-| 400    | Invalid input or missing required fields |
-| 404    | Character not found                      |
-| 405    | Method not allowed                       |
+| Estado | Significado                                      |
+|--------|--------------------------------------------------|
+| 400    | Entrada inválida o campos requeridos faltantes   |
+| 404    | Personaje no encontrado                          |
+| 405    | Método no permitido                              |
 
-### Evidence
+---
 
-### Create Character
+## Evidencia
+
+### Crear personaje
 
 ![Create Character](./public/createOne.png)
 
-### Get All Characters
+### Obtener todos los personajes
 
 ![Get All Characters](public/getCharacters.png)
 
-### Get Single Character
+### Obtener un personaje
 
 ![Get Single Character](public/getOneCharacter.png)
