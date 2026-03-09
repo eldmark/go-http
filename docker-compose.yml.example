@@ -1,0 +1,7 @@
+
+services:
+  go-server:
+    build: .
+    container_name: go-server
+    ports:
+      - "24229:24229"
