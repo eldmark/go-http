@@ -184,13 +184,13 @@ All errors follow the same format:
 ```markdown
 ### Create Character
 
-![Create Character](../public/create.png)
+![Create Character](./public/createOne.png)
 
 ### Get All Characters
 
-![Get All Characters](../public/get_characters.png)
+![Get All Characters](./public/getCharacters.png)
 
 ### Get Single Character
 
-![Get Single Character](../public/get_one_character.png)
+![Get Single Character](./public/getOneCharacter.png)
 ```
