@@ -181,16 +181,15 @@ All errors follow the same format:
 | 405    | Method not allowed                       |
 
 ### Evidence
-```markdown
+
 ### Create Character
 
 ![Create Character](./public/createOne.png)
 
 ### Get All Characters
 
-![Get All Characters](./public/getCharacters.png)
+![Get All Characters](public/getCharacters.png)
 
 ### Get Single Character
 
-![Get Single Character](./public/getOneCharacter.png)
-```
+![Get Single Character](public/getOneCharacter.png)
